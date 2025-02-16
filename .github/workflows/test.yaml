@@ -12,16 +12,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install httpx  # Ensure httpx is installed for TestClient
 
-    - name: Run tests
-      run: pytest
+      - name: Run tests
+        run: |
+          PYTHONPATH=. pytest  # Ensure app/ is discoverable
